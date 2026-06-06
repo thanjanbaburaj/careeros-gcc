@@ -1,0 +1,13 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: '0 8 */5 * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping
+        run: echo "Keep-alive ping"
