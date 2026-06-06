@@ -2,7 +2,7 @@
   "name": "careeros-gcc",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://YOUR_GITHUB_USERNAME.github.io/careeros-gcc",
+  "homepage": "https://github.com/thanjanbaburaj/careeros-gcc",
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
