@@ -4,23 +4,29 @@ import authStore from '../../store/authStore.js'
 import { Button, Input } from '../../components/ui/index.jsx'
 
 export default function Login() {
-  const navigate      = useNavigate()
-  const [email, setEmail]   = useState('')
-  const [error, setError]   = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigate        = useNavigate()
+  const [email,    setEmail]    = useState('')
+  const [password, setPassword] = useState('')
+  const [error,    setError]    = useState('')
+  const [loading,  setLoading]  = useState(false)
 
   async function handleLogin() {
-    if (!email) { setError('Please enter your email.'); return }
+    if (!email)    { setError('Please enter your email.');    return }
+    if (!password) { setError('Please enter your password.'); return }
     setLoading(true)
     setError('')
     try {
-      await authStore.login(email)
+      await authStore.login(email, password)
       navigate('/dashboard')
     } catch (e) {
       setError(e.message)
     } finally {
       setLoading(false)
     }
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter') handleLogin()
   }
 
   return (
@@ -42,7 +48,11 @@ export default function Login() {
         </div>
 
         {error && (
-          <div style={{ background: 'var(--danger-dim)', border: '1px solid var(--danger)', borderRadius: 10, padding: '10px 14px', marginBottom: 20, color: 'var(--danger)', fontSize: 13 }}>
+          <div style={{
+            background: 'var(--danger-dim)', border: '1px solid var(--danger)',
+            borderRadius: 10, padding: '10px 14px', marginBottom: 20,
+            color: 'var(--danger)', fontSize: 13,
+          }}>
             {error}
           </div>
         )}
@@ -56,14 +66,20 @@ export default function Login() {
             placeholder="your@email.com"
             required
           />
-          <Button fullWidth onClick={handleLogin} loading={loading}>
+          <Input
+            label="Password"
+            type="password"
+            value={password}
+            onChange={setPassword}
+            placeholder="Your password"
+            required
+          />
+          <Button fullWidth onClick={handleLogin} loading={loading} onKeyDown={handleKey}>
             Sign In
           </Button>
           <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--text-muted)' }}>
-            No account yet? <Link to="/register" style={{ color: 'var(--gold)' }}>Create one free</Link>
-          </p>
-          <p style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-dim)' }}>
-            Demo: register first, then sign in with your email.
+            No account yet?{' '}
+            <Link to="/register" style={{ color: 'var(--gold)' }}>Create one free</Link>
           </p>
         </div>
       </div>
