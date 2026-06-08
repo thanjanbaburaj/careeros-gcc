@@ -1,27 +1,41 @@
-<script>
-  (function() {
-    var pwd = localStorage.getItem('careeros_access');
-    if (pwd !== 'Jobsearch@2026#') {
-      var input = window.prompt('CareerOS — Enter access password:');
-      if (input !== 'YOUR_SECRET_PASSWORD') {
-        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0A1628;color:#C9A84C;font-family:sans-serif;font-size:18px;">Access denied.</div>';
-        return;
-      }
-      localStorage.setItem('careeros_access', input);
-    }
-  })();
-</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="CareerOS GCC — Career management platform for UAE and GCC professionals" />
+    <meta name="theme-color" content="#C9A84C" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CareerOS" />
     <title>CareerOS GCC</title>
     <link rel="icon" type="image/svg+xml" href="/careeros-gcc/favicon.svg" />
+    <link rel="manifest" href="/careeros-gcc/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script>
+      // Password protection — change 'careeros2024' to your own password
+      (function () {
+        var SECRET = 'careeros2024';
+        var stored = localStorage.getItem('careeros_access');
+        if (stored !== SECRET) {
+          var input = window.prompt('CareerOS GCC\u2014Enter access password:');
+          if (input !== SECRET) {
+            document.documentElement.innerHTML = '<html><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#0A1628;color:#C9A84C;font-family:sans-serif;font-size:18px;text-align:center;">Access denied.<br><small style=\'color:#5A7A95;font-size:13px;margin-top:8px;display:block\'>Refresh to try again.</small></body></html>';
+            throw new Error('Access denied');
+          }
+          localStorage.setItem('careeros_access', SECRET);
+        }
+      })();
+
+      // Register service worker for PWA / offline mode
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/careeros-gcc/sw.js').catch(function () {});
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
