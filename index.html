@@ -14,31 +14,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <script>
-      /* ── PASSWORD GATE ── change the value below to your own password */
       (function () {
         var PWD = 'gcc2025';
         try {
           if (localStorage.getItem('co_access') !== PWD) {
-            var input = window.prompt('CareerOS GCC \u2014 Password required:');
+            var input = window.prompt('CareerOS GCC - Password required:');
             if (input !== PWD) {
-              document.documentElement.innerHTML = [
-                '<!DOCTYPE html><html><head><meta charset="UTF-8"/></head>',
-                '<body style="margin:0;min-height:100vh;display:flex;flex-direction:column;',
-                'align-items:center;justify-content:center;background:#0A1628;',
-                'font-family:sans-serif;color:#C9A84C;gap:12px">',
-                '<div style="font-size:48px">&#128274;</div>',
-                '<div style="font-size:20px;font-weight:700">Access Denied</div>',
-                '<div style="font-size:13px;color:#5A7A95">',
-                '<a href="" style="color:#C9A84C">Refresh to try again</a></div>',
-                '</body></html>'
-              ].join('');
+              document.documentElement.innerHTML = '<html><head><meta charset="UTF-8"/><style>body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A1628;font-family:sans-serif;color:#C9A84C;gap:12px;text-align:center;}</style></head><body><div style="font-size:48px">&#128274;</div><div style="font-size:20px;font-weight:700">Access Denied</div><a href="" style="color:#C9A84C;font-size:13px">Refresh to try again</a></body></html>';
               return;
             }
             localStorage.setItem('co_access', PWD);
           }
         } catch (e) {}
-
-        /* PWA service worker */
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', function () {
             navigator.serviceWorker.register('/careeros-gcc/sw.js').catch(function () {});
